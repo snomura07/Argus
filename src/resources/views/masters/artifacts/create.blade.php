@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div id="pc-spec-section" class="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div>
                 <label for="cpu" class="mb-1 block text-sm">CPU</label>
                 <input id="cpu" name="cpu" value="{{ old('cpu') }}" class="w-full rounded border border-slate-300 px-3 py-2">
@@ -68,10 +68,9 @@
             @error('display_size')<p class="mt-1 text-xs text-rose-600">{{ $message }}</p>@enderror
         </div>
 
-        <div>
-            <label for="unit_quantity" class="mb-1 block text-sm">PC台数（種別がpcのとき必須）</label>
+        <div id="pc-quantity-section">
+            <label for="unit_quantity" class="mb-1 block text-sm">納品台数</label>
             <input id="unit_quantity" type="number" name="unit_quantity" value="{{ old('unit_quantity') }}" class="w-full rounded border border-slate-300 px-3 py-2" min="1">
-            <p class="mt-1 text-xs text-slate-500">入力された台数分のPC個体を自動作成し、管理番号を採番します。</p>
             @error('unit_quantity')<p class="mt-1 text-xs text-rose-600">{{ $message }}</p>@enderror
         </div>
 
@@ -81,4 +80,26 @@
         </div>
     </form>
 </div>
+
+<script>
+    (() => {
+        const typeSelect = document.getElementById('artifact_type');
+        const pcSpecSection = document.getElementById('pc-spec-section');
+        const pcQuantitySection = document.getElementById('pc-quantity-section');
+
+        if (!typeSelect || !pcSpecSection || !pcQuantitySection) {
+            return;
+        }
+
+        const togglePcFields = () => {
+            const isPc = typeSelect.value === 'pc';
+
+            pcSpecSection.classList.toggle('hidden', !isPc);
+            pcQuantitySection.classList.toggle('hidden', !isPc);
+        };
+
+        typeSelect.addEventListener('change', togglePcFields);
+        togglePcFields();
+    })();
+</script>
 @endsection
