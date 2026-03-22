@@ -12,14 +12,14 @@ class ExampleTest extends TestCase
 
     public function test_artifact_list_page_is_reachable(): void
     {
-        $response = $this->get('/artifacts');
+        $response = $this->get('/masters/artifacts');
 
         $response->assertOk();
     }
 
     public function test_artifact_can_be_created(): void
     {
-        $response = $this->post('/artifacts', [
+        $response = $this->post('/masters/artifacts', [
             'artifact_type' => 'pc',
             'name' => 'Dell Latitude 5440 / i5 / 16GB / 14inch',
             'maker' => 'Dell',
@@ -28,24 +28,28 @@ class ExampleTest extends TestCase
             'memory_gb' => 16,
             'storage_gb' => 512,
             'display_size' => '14inch',
+            'unit_quantity' => 3,
         ]);
 
-        $response->assertRedirect('/artifacts');
+        $response->assertRedirect('/masters/artifacts');
 
         $this->assertDatabaseHas('artifacts', [
             'artifact_type' => 'pc',
             'name' => 'Dell Latitude 5440 / i5 / 16GB / 14inch',
         ]);
+        $this->assertDatabaseCount('pc_units', 3);
+        $this->assertDatabaseHas('pc_units', ['management_no' => 'kepc0001']);
+        $this->assertDatabaseHas('pc_units', ['management_no' => 'kepc0003']);
     }
 
     public function test_artifact_creation_validates_required_fields(): void
     {
-        $response = $this->post('/artifacts', [
+        $response = $this->post('/masters/artifacts', [
             'artifact_type' => 'pc',
-            'name' => '',
+            'name' => 'Sample PC',
         ]);
 
-        $response->assertSessionHasErrors(['name']);
+        $response->assertSessionHasErrors(['unit_quantity']);
     }
 
     public function test_artifact_list_supports_keyword_search(): void
@@ -60,7 +64,7 @@ class ExampleTest extends TestCase
             'name' => 'Dell 27 Monitor',
         ]);
 
-        $response = $this->get('/artifacts?q=Latitude');
+        $response = $this->get('/masters/artifacts?q=Latitude');
 
         $response->assertOk();
         $response->assertSeeText('Latitude');
@@ -74,9 +78,9 @@ class ExampleTest extends TestCase
             'name' => 'Delete Target',
         ]);
 
-        $response = $this->delete('/artifacts/'.$artifact->id);
+        $response = $this->delete('/masters/artifacts/'.$artifact->id);
 
-        $response->assertRedirect('/artifacts');
+        $response->assertRedirect('/masters/artifacts');
         $this->assertDatabaseMissing('artifacts', ['id' => $artifact->id]);
     }
 }

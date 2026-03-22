@@ -20,16 +20,18 @@ class ArtifactController extends Controller
     {
         $keyword = $request->string('q')->toString();
 
-        return view('artifacts.index', [
+        return view('masters.artifacts.index', [
             'artifacts' => $this->artifactRepository->paginateWithSearch($keyword),
             'keyword' => $keyword,
+            'currentMaster' => 'artifacts',
         ]);
     }
 
     public function create(): View
     {
-        return view('artifacts.create', [
+        return view('masters.artifacts.create', [
             'artifactTypes' => ['pc', 'monitor', 'keyboard', 'mouse', 'other'],
+            'currentMaster' => 'artifacts',
         ]);
     }
 
@@ -38,7 +40,7 @@ class ArtifactController extends Controller
         $artifact = $action($request->validated());
 
         return redirect()
-            ->route('artifacts.index')
+            ->route('masters.artifacts.index')
             ->with('status', '品目を登録しました: '.$artifact->name);
     }
 
@@ -47,7 +49,7 @@ class ArtifactController extends Controller
         $deletedName = $action($artifactId);
 
         return redirect()
-            ->route('artifacts.index')
+            ->route('masters.artifacts.index')
             ->with('status', '品目を削除しました: '.$deletedName);
     }
 }

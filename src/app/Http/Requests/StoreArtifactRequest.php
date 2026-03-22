@@ -31,6 +31,7 @@ class StoreArtifactRequest extends FormRequest
             'memory_gb' => ['nullable', 'integer', 'min:1', 'max:2048'],
             'storage_gb' => ['nullable', 'integer', 'min:1', 'max:16384'],
             'display_size' => ['nullable', 'string', 'max:32'],
+            'unit_quantity' => ['nullable', 'integer', 'min:1', 'max:1000', 'required_if:artifact_type,pc'],
         ];
     }
 
@@ -43,6 +44,7 @@ class StoreArtifactRequest extends FormRequest
             'model' => $this->normalizeNullableString('model'),
             'cpu' => $this->normalizeNullableString('cpu'),
             'display_size' => $this->normalizeNullableString('display_size'),
+            'unit_quantity' => $this->normalizeNullableInteger('unit_quantity'),
         ]);
     }
 
@@ -51,5 +53,12 @@ class StoreArtifactRequest extends FormRequest
         $value = trim((string) $this->input($key));
 
         return $value === '' ? null : $value;
+    }
+
+    private function normalizeNullableInteger(string $key): ?int
+    {
+        $value = trim((string) $this->input($key));
+
+        return $value === '' ? null : (int) $value;
     }
 }
