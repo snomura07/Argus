@@ -39,6 +39,7 @@
                 <th class="px-4 py-3">品目名</th>
                 <th class="px-4 py-3">メーカー</th>
                 <th class="px-4 py-3">型番</th>
+                <th class="px-4 py-3">操作</th>
             </tr>
             </thead>
             <tbody>
@@ -49,10 +50,17 @@
                     <td class="px-4 py-3">{{ $artifact->name }}</td>
                     <td class="px-4 py-3">{{ $artifact->maker ?? '-' }}</td>
                     <td class="px-4 py-3">{{ $artifact->model ?? '-' }}</td>
+                    <td class="px-4 py-3">
+                        <form method="POST" action="{{ route('artifacts.destroy', ['artifactId' => $artifact->id]) }}" onsubmit="return confirm('この品目を削除しますか？');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="rounded bg-rose-600 px-3 py-1 text-xs text-white">削除</button>
+                        </form>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td class="px-4 py-6 text-center text-slate-500" colspan="5">データがありません。</td>
+                    <td class="px-4 py-6 text-center text-slate-500" colspan="6">データがありません。</td>
                 </tr>
             @endforelse
             </tbody>

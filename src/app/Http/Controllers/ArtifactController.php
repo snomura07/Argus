@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateArtifactAction;
+use App\Actions\DeleteArtifactAction;
 use App\Http\Requests\StoreArtifactRequest;
 use App\Repositories\ArtifactRepository;
 use Illuminate\Http\RedirectResponse;
@@ -39,5 +40,14 @@ class ArtifactController extends Controller
         return redirect()
             ->route('artifacts.index')
             ->with('status', '品目を登録しました: '.$artifact->name);
+    }
+
+    public function destroy(int $artifactId, DeleteArtifactAction $action): RedirectResponse
+    {
+        $deletedName = $action($artifactId);
+
+        return redirect()
+            ->route('artifacts.index')
+            ->with('status', '品目を削除しました: '.$deletedName);
     }
 }

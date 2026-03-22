@@ -25,4 +25,13 @@ class ArtifactRepository
     {
         return Artifact::query()->create($attributes);
     }
+
+    public function deleteById(int $artifactId): string
+    {
+        $artifact = Artifact::query()->findOrFail($artifactId);
+        $name = $artifact->name;
+        $artifact->delete();
+
+        return $name;
+    }
 }

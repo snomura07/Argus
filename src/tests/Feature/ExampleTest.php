@@ -66,4 +66,17 @@ class ExampleTest extends TestCase
         $response->assertSeeText('Latitude');
         $response->assertDontSeeText('Dell 27 Monitor');
     }
+
+    public function test_artifact_can_be_deleted_physically(): void
+    {
+        $artifact = Artifact::query()->create([
+            'artifact_type' => 'pc',
+            'name' => 'Delete Target',
+        ]);
+
+        $response = $this->delete('/artifacts/'.$artifact->id);
+
+        $response->assertRedirect('/artifacts');
+        $this->assertDatabaseMissing('artifacts', ['id' => $artifact->id]);
+    }
 }

@@ -8,3 +8,4 @@ Route::redirect('/', '/artifacts');
 Route::get('/artifacts', [ArtifactController::class, 'index'])->name('artifacts.index');
 Route::get('/artifacts/create', [ArtifactController::class, 'create'])->name('artifacts.create');
 Route::post('/artifacts', [ArtifactController::class, 'store'])->name('artifacts.store');
+Route::delete('/artifacts/{artifactId}', [ArtifactController::class, 'destroy'])->name('artifacts.destroy');
