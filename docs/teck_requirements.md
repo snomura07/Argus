@@ -16,17 +16,14 @@
 - Container: Docker / Docker Compose
 - Web: Nginx 1.27-alpine
 - App: php-fpm (php:8.3-fpm)
-- DB: MySQL 8.4
 - Timezone: `Asia/Tokyo`（コンテナ環境変数）
 
 ### 1.4 データベース
-- 主要テーブル: `cities`, `weather_reports`, `daily_weather_stats`
-- 推奨キー/制約:
-1. `weather_reports.measured_time` に index
-2. `daily_weather_stats.measured_date` に index
-3. `daily_weather_stats` は `city_id + measured_date` を unique
+- DB: MySQL 8.4
+
 
 ## 2. ディレクトリ/責務
+- `docker`: Docker関連のファイルを管理
 - `src/app/Models`: テーブル構造を表現する Eloquent モデル
 - `src/app/Repositories`: DBアクセス（検索/集計/保存）を集約
 - `src/app/Actions`: ユースケース・ドメインロジック
@@ -34,6 +31,7 @@
 - `src/app/Http/Requests`: 入力バリデーションと正規化
 - `src/resources/views`: 表示（Blade）
 - `src/app/Console/Commands`: 定期処理・手動実行バッチ
+- `db`: MysqlコンテナでのDBのマウント先
 
 ## 3. レイヤー実装ルール
 - 依存方向は `Controller -> Action -> Repository -> Model` を維持する。
