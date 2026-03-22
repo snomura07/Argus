@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Artifact;
+use App\Models\Assignee;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -82,5 +83,28 @@ class ExampleTest extends TestCase
 
         $response->assertRedirect('/masters/artifacts');
         $this->assertDatabaseMissing('artifacts', ['id' => $artifact->id]);
+    }
+
+    public function test_assignee_can_be_updated_from_master_edit_screen(): void
+    {
+        $assignee = Assignee::query()->create([
+            'name' => '総務部',
+            'assignee_type' => 'department',
+        ]);
+
+        $editPage = $this->get('/masters/assignees/'.$assignee->id.'/edit');
+        $editPage->assertOk();
+
+        $response = $this->put('/masters/assignees/'.$assignee->id, [
+            'name' => '情報システム部',
+            'assignee_type' => 'department',
+        ]);
+
+        $response->assertRedirect('/masters/assignees');
+        $this->assertDatabaseHas('assignees', [
+            'id' => $assignee->id,
+            'name' => '情報システム部',
+            'assignee_type' => 'department',
+        ]);
     }
 }

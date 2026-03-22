@@ -14,4 +14,8 @@ Route::prefix('masters')->name('masters.')->group(function (): void {
     Route::delete('/artifacts/{artifactId}', [ArtifactController::class, 'destroy'])->name('artifacts.destroy');
 
     Route::get('/assignees', [AssigneeController::class, 'index'])->name('assignees.index');
+    Route::get('/assignees/create', [AssigneeController::class, 'create'])->name('assignees.create');
+    Route::post('/assignees', [AssigneeController::class, 'store'])->name('assignees.store');
+    Route::get('/assignees/{assigneeId}/edit', [AssigneeController::class, 'edit'])->name('assignees.edit');
+    Route::put('/assignees/{assigneeId}', [AssigneeController::class, 'update'])->name('assignees.update');
 });

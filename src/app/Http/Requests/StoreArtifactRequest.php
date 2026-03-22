@@ -27,9 +27,9 @@ class StoreArtifactRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'maker' => ['nullable', 'string', 'max:255'],
             'model' => ['nullable', 'string', 'max:255'],
-            'cpu' => ['nullable', 'string', 'max:255'],
-            'memory_gb' => ['nullable', 'integer', 'min:1', 'max:2048'],
-            'storage_gb' => ['nullable', 'integer', 'min:1', 'max:16384'],
+            'cpu' => ['exclude_unless:artifact_type,pc', 'nullable', 'string', 'max:255'],
+            'memory_gb' => ['exclude_unless:artifact_type,pc', 'nullable', 'integer', 'min:1', 'max:2048'],
+            'storage_gb' => ['exclude_unless:artifact_type,pc', 'nullable', 'integer', 'min:1', 'max:16384'],
             'display_size' => ['nullable', 'string', 'max:32'],
             'unit_quantity' => ['nullable', 'integer', 'min:1', 'max:1000', 'required_if:artifact_type,pc'],
         ];
