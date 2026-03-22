@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\ArtifactController;
 use App\Http\Controllers\AssigneeController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/masters/artifacts');
+Route::redirect('/', '/dashboard');
 Route::redirect('/artifacts', '/masters/artifacts');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 Route::prefix('masters')->name('masters.')->group(function (): void {
     Route::get('/artifacts', [ArtifactController::class, 'index'])->name('artifacts.index');

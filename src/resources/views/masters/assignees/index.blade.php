@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
-@section('title', '貸与先マスタ | Argus')
+@section('title', '貸与先管理 | Argus')
 
 @section('content')
 <div class="mx-auto max-w-6xl">
     <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <h2 class="text-2xl font-semibold">貸与先マスタ</h2>
+        <h2 class="text-2xl font-semibold">貸与先管理</h2>
         <a href="{{ route('masters.assignees.create') }}" class="rounded bg-slate-800 px-4 py-2 text-sm text-white">貸与先を追加</a>
     </div>
 
